@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.saifer.storyapp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,24 +16,20 @@
         android:theme="@style/Theme.StoryApp"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".login.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailStoryActivity"
+            android:name=".story.DetailStoryActivity"
             android:exported="false" />
         <activity
-            android:name=".NewStoryActivity"
+            android:name=".story.NewStoryActivity"
             android:exported="false" />
         <activity
-            android:name=".StoryActivity"
+            android:name=".story.StoryActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
