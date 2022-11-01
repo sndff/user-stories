@@ -1,12 +1,11 @@
 package com.saifer.storyapp.api
 
-import com.saifer.storyapp.MainActivity
 import com.saifer.storyapp.api.data.LoginModel
 import com.saifer.storyapp.api.data.RegisterModel
+import com.saifer.storyapp.api.responses.DetailStoryResponse
 import com.saifer.storyapp.api.responses.LoginResponse
 import com.saifer.storyapp.api.responses.RegisterResponse
 import com.saifer.storyapp.api.responses.StoriesResponse
-import com.saifer.storyapp.session.SessionManager
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -25,4 +24,10 @@ interface ApiService {
     fun getStories(
         @Header("Authorization") header: String?
     ): Call<StoriesResponse>
+
+    @GET("stories/{id}")
+    fun getDetailStory(
+        @Path("id") id: String,
+        @Header("Authorization") header: String?
+    ): Call<DetailStoryResponse>
 }
