@@ -34,15 +34,6 @@ class DetailStoryViewModel : ViewModel(){
                             .into(binding.ivDetailPhoto)
                         binding.tvDetailName.text = responseBody.story?.name
                         binding.tvDetailDescription.text = responseBody.story?.description
-
-//                        responseBody?.story?.photoUrl.toString(),
-//                        responseBody?.story?.name.toString(),
-//                        responseBody?.story?.description.toString(),
-//                        responseBody?.story?.id.toString(),
-//                        responseBody?.story?.createdAt.toString(),
-//                        responseBody?.story?.lat.toString(),
-//                        responseBody?.story?.lon.toString()
-//                        Toast.makeText(activity, story.id, Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(activity, "Stories not Found", Toast.LENGTH_SHORT).show()

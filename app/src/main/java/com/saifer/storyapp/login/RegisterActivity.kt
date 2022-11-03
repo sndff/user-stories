@@ -32,7 +32,7 @@ class RegisterActivity : AppCompatActivity() {
             val name = binding.edRegisterName.text.toString()
             val email = binding.edRegisterEmail.text.toString()
             val passw = binding.edRegisterPassword.text.toString()
-            registerModel = RegisterModel(name, email, passw) // udah done, tinggal ituin ke edit text nya
+            registerModel = RegisterModel(name, email, passw)
             val client = ApiConfig.getApiService().register(registerModel)
             client.enqueue(object : Callback<RegisterResponse> {
                 override fun onResponse(

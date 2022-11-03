@@ -14,9 +14,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21927083333333333" />
         <entry key="app/src/main/res/layout/activity_new_story.xml" value="0.21875" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_story.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_story.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_story.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_story.xml" value="0.25" />
+        <entry key="app/src/main/res/xml/file_path.xml" value="0.10462287104622871" />
       </map>
     </option>
   </component>

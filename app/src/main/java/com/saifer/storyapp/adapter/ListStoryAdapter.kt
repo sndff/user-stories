@@ -40,7 +40,7 @@ class ListStoryAdapter (private val listStory: ArrayList<StoryModel>): RecyclerV
         val (img, name, desc) = listStory[position]
         Glide.with(holder.itemView.context)
             .load(img)
-            .apply( RequestOptions().override(300,300))
+            .apply( RequestOptions().override(500,500))
             .into(holder.imgPhoto)
         holder.tvName.text = name
         holder.tvDesc.text = desc
@@ -51,4 +51,5 @@ class ListStoryAdapter (private val listStory: ArrayList<StoryModel>): RecyclerV
     }
 
     override fun getItemCount(): Int = listStory.size
+
 }

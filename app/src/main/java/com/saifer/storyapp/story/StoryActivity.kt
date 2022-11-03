@@ -13,9 +13,10 @@ import com.saifer.storyapp.ui.CustomButton
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoryBinding
-    private lateinit var btnLogout: CustomButton
     private lateinit var rvStory: RecyclerView
     private lateinit var viewModel: StoryViewModel
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +31,22 @@ class StoryActivity : AppCompatActivity() {
 
         viewModel.getAllStories(this@StoryActivity, rvStory, session)
 
-
-        btnLogout = binding.btnLogout
-        btnLogout.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             session.logout()
             val i = Intent(this@StoryActivity, MainActivity::class.java)
-            startActivity(i)
             finish()
+            startActivity(i)
             Toast.makeText(this@StoryActivity, "Berhasil Logout", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.fbNewStory.setOnClickListener{
+            val i = Intent(this@StoryActivity, NewStoryActivity::class.java)
+            startActivity(i)
+
+        }
+
+        binding.btnRefresh.setOnClickListener {
+            viewModel.getAllStories(this@StoryActivity, rvStory, session)
         }
     }
 }
