@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import com.saifer.storyapp.R
 import okio.utf8Size
 
-class CustomEditText: AppCompatEditText, View.OnTouchListener {
+class CustomEditTextPassword: AppCompatEditText, View.OnTouchListener {
     private lateinit var clearButtonImage : Drawable
 
     constructor(context: Context) : super(context){
@@ -40,6 +40,7 @@ class CustomEditText: AppCompatEditText, View.OnTouchListener {
             }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
+                error = if(s.count() < 6) "Minimal 6 Karakter" else null
             }
             override fun afterTextChanged(s: Editable) {
                 // Do Nothing

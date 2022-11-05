@@ -1,6 +1,7 @@
 package com.saifer.storyapp.story
 
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
@@ -34,6 +35,7 @@ class DetailStoryViewModel : ViewModel(){
                             .into(binding.ivDetailPhoto)
                         binding.tvDetailName.text = responseBody.story?.name
                         binding.tvDetailDescription.text = responseBody.story?.description
+                        binding.progressBar.visibility = View.GONE
                     }
                 } else {
                     Toast.makeText(activity, "Stories not Found", Toast.LENGTH_SHORT).show()

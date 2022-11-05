@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -112,6 +113,7 @@ class NewStoryActivity : AppCompatActivity() {
             }
 
             binding.btnAdd.setOnClickListener {
+                binding.progressBar.visibility = View.VISIBLE
                 postImage()
                 val i = Intent(this@NewStoryActivity, StoryActivity::class.java)
                 finish()
@@ -231,16 +233,20 @@ class NewStoryActivity : AppCompatActivity() {
                         val responseBody = response.body()
                         if (responseBody != null && !responseBody.error!!) {
                             Toast.makeText(this@NewStoryActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                            binding.progressBar.visibility = View.GONE
                         }
                     } else {
                         Toast.makeText(this@NewStoryActivity, response.message(), Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility = View.GONE
                     }
                 }
                 override fun onFailure(call: Call<NewStoryResponse>, t: Throwable) {
                     Toast.makeText(this@NewStoryActivity, "Upload Gagal", Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
                 }
             })
         } else {
+            binding.progressBar.visibility = View.GONE
             Toast.makeText(this@NewStoryActivity, "Upload Gagal.", Toast.LENGTH_SHORT).show()
         }
     }

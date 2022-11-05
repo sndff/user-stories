@@ -1,12 +1,15 @@
 package com.saifer.storyapp.story
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +19,8 @@ import com.saifer.storyapp.api.ApiConfig
 import com.saifer.storyapp.api.data.StoryModel
 import com.saifer.storyapp.api.responses.DetailStoryResponse
 import com.saifer.storyapp.api.responses.StoriesResponse
+import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
+import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,11 +54,12 @@ class StoryViewModel : ViewModel(){
 
     fun showSelectedStory(activity: AppCompatActivity, story: StoryModel) {
         val intentDetailStoryActivity = Intent(activity, DetailStoryActivity::class.java)
+
         intentDetailStoryActivity.putExtra(DetailStoryActivity.EXTRA_USER, story)
-        activity.startActivity(intentDetailStoryActivity)
+        activity.startActivity(intentDetailStoryActivity, ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle())
     }
 
-    fun getAllStories(activity: AppCompatActivity, rv: RecyclerView, sessionManager: SessionManager){
+    fun getAllStories(activity: AppCompatActivity, rv: RecyclerView, sessionManager: SessionManager, binding: ActivityStoryBinding){
         val storyList = ArrayList<StoryModel>()
         val client = ApiConfig.getApiService().getStories("Bearer ${sessionManager.getToken()}")
         client.enqueue(object : Callback<StoriesResponse> {
@@ -77,8 +83,10 @@ class StoryViewModel : ViewModel(){
                             storyList.add(story)
                         }
                         showStory(activity, rv, storyList)
+                        binding.progressBar.visibility = View.GONE
                     }
                 } else {
+                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(activity, "Stories not Found", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -87,5 +95,4 @@ class StoryViewModel : ViewModel(){
             }
         })
     }
-
 }

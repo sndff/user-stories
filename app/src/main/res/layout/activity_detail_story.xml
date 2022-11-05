@@ -6,30 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".story.DetailStoryActivity">
 
+    <ImageView
+        android:id="@+id/iv_detail_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:transitionName="photo"
+        tools:src="@tools:sample/avatars"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="User Image Story" />
+
     <TextView
         android:id="@+id/tv_detail_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name"
+        android:transitionName="name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingLeft="30dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/iv_detail_photo"/>
 
-    <ImageView
-        android:id="@+id/iv_detail_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_detail_name"
-        android:contentDescription="User Image Story" />
-    
     <TextView
         android:id="@+id/tv_detail_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:transitionName="description"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_detail_name" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_detail_photo" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
