@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.saifer.storyapp.R
 import com.saifer.storyapp.databinding.ActivityLoginBinding
 import com.saifer.storyapp.session.SessionManager
 
@@ -31,9 +32,9 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             if (binding.edLoginEmail.text.toString() == ""){
-                binding.edLoginEmail.error = "Input email"
+                binding.edLoginEmail.error = getString(R.string.login_error_input_email)
             } else if (binding.edLoginPassword.text.toString() == "") {
-                binding.edLoginPassword.error = "Input Password"
+                binding.edLoginPassword.error = getString(R.string.login_error_input_password)
             } else {
                 binding.progressBar.visibility = View.VISIBLE
                 viewModel.login(this@LoginActivity, binding.edLoginEmail.text.toString(), binding.edLoginPassword.text.toString(), session, binding)

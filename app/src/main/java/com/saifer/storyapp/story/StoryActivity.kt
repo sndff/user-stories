@@ -61,7 +61,7 @@ class StoryActivity : AppCompatActivity() {
                 val i = Intent(this@StoryActivity, MainActivity::class.java)
                 finish()
                 startActivity(i)
-                Toast.makeText(this@StoryActivity, "Logged Out", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@StoryActivity, getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
                 return true
             }
             else -> {

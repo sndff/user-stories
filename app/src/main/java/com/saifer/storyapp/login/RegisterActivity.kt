@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.saifer.storyapp.R
 import com.saifer.storyapp.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
@@ -28,11 +29,11 @@ class RegisterActivity : AppCompatActivity() {
 
         btnRegister.setOnClickListener {
             if (binding.edRegisterName.text.toString() == ""){
-                binding.edRegisterName.error = "Name should not empty"
+                binding.edRegisterName.error = getString(R.string.register_error_email)
             } else if (binding.edRegisterEmail.text.toString() == ""){
-                binding.edRegisterEmail.error = "Email should not empty"
+                binding.edRegisterEmail.error = getString(R.string.register_error_name)
             } else if (binding.edRegisterPassword.text.toString() == "") {
-                binding.edRegisterPassword.error = "Password should not empty"
+                binding.edRegisterPassword.error = getString(R.string.register_error_password)
             } else {
                 binding.progressBar.visibility = View.VISIBLE
                 viewModel.register(this@RegisterActivity, binding.edRegisterName.text.toString(), binding.edRegisterEmail.text.toString(), binding.edRegisterPassword.text.toString(), binding)

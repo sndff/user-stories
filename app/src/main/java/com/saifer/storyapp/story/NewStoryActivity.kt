@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.saifer.storyapp.R
 import com.saifer.storyapp.api.ApiConfig
 import com.saifer.storyapp.api.responses.NewStoryResponse
 import com.saifer.storyapp.databinding.ActivityNewStoryBinding
@@ -53,9 +54,9 @@ class NewStoryActivity : AppCompatActivity() {
 
         val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                Toast.makeText(this@NewStoryActivity, "Access Granted Press Button Again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@NewStoryActivity, getString(R.string.toast_access_granted), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this@NewStoryActivity, "Access Denied, Can't Use Function", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@NewStoryActivity, getString(R.string.toast_access_denied), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -239,13 +240,13 @@ class NewStoryActivity : AppCompatActivity() {
                     }
                 }
                 override fun onFailure(call: Call<NewStoryResponse>, t: Throwable) {
-                    Toast.makeText(this@NewStoryActivity, "Upload failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NewStoryActivity, getString(R.string.error_upload_failed), Toast.LENGTH_SHORT).show()
                     binding.progressBar.visibility = View.GONE
                 }
             })
         } else {
             binding.progressBar.visibility = View.GONE
-            Toast.makeText(this@NewStoryActivity, "Upload Failed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@NewStoryActivity, getString(R.string.error_upload_failed), Toast.LENGTH_SHORT).show()
         }
     }
 

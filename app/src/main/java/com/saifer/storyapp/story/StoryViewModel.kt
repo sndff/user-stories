@@ -83,7 +83,7 @@ class StoryViewModel : ViewModel(){
                     }
                 } else {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(activity, "Stories not Found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Failed To Fetch Stories", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
