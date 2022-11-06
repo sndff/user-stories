@@ -21,7 +21,6 @@ class StoryActivity : AppCompatActivity() {
     private lateinit var session: SessionManager
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStoryBinding.inflate(layoutInflater)
@@ -62,7 +61,7 @@ class StoryActivity : AppCompatActivity() {
                 val i = Intent(this@StoryActivity, MainActivity::class.java)
                 finish()
                 startActivity(i)
-                Toast.makeText(this@StoryActivity, "Berhasil Logout", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@StoryActivity, "Logged Out", Toast.LENGTH_SHORT).show()
                 return true
             }
             else -> {

@@ -42,83 +42,84 @@ class NewStoryActivity : AppCompatActivity() {
     private val filenameFormat = "dd-MMM-yyyy"
     private lateinit var currentPhotoPath: String
     private lateinit var binding: ActivityNewStoryBinding
-    private val requiredPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
-    private val requestCodePermission = 100
     private var getFile: File? = null
     private lateinit var sessionManager: SessionManager
+    private val requestedCameraPermission = Manifest.permission.CAMERA
+    private val requestedMediaPermission = Manifest.permission.READ_EXTERNAL_STORAGE
 
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == requestCodePermission) {
-            if (!allPermissionsGranted()) {
-                Toast.makeText(
-                    this,
-                    "Media access permission not granted",
-                    Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Media Access Granted",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-    private fun allPermissionsGranted() = requiredPermissions.all {
-        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(this@NewStoryActivity, "Access Granted Press Button Again", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@NewStoryActivity, "Access Denied, Can't Use Function", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         binding = ActivityNewStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         sessionManager = SessionManager(this@NewStoryActivity)
 
-        if (checkSelfPermission(requiredPermissions.toString()) == PackageManager.PERMISSION_GRANTED){
-            requestPermissions(requiredPermissions, requestCodePermission)
-        } else {
-            binding.btnCamera.setOnClickListener {
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                intent.resolveActivity(packageManager)
+        binding.btnCamera.setOnClickListener {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    baseContext,
+                    requestedCameraPermission
+                ) -> {
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    intent.resolveActivity(packageManager)
 
-                createCustomTempFile(application).also {
-                    val photoUri: Uri = FileProvider.getUriForFile(
-                        this@NewStoryActivity,
-                        "com.saifer.storyapp",
-                        it
-                    )
-                    currentPhotoPath = it.absolutePath
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                    launcherIntentCamera.launch(intent)
+                    createCustomTempFile(application).also {
+                        val photoUri: Uri = FileProvider.getUriForFile(
+                            this@NewStoryActivity,
+                            "com.saifer.storyapp",
+                            it
+                        )
+                        currentPhotoPath = it.absolutePath
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                        launcherIntentCamera.launch(intent)
+                    }
+                }
+                else -> {
+                    requestPermissionLauncher.launch(requestedCameraPermission)
                 }
             }
+        }
 
-            binding.btnGallery.setOnClickListener {
-                val intent = Intent()
-                intent.action = ACTION_GET_CONTENT
-                intent.type = "image/*"
-                val picker = Intent.createChooser(intent, "Pick a Picture")
-                launcherIntentGallery.launch(picker)
+        binding.btnGallery.setOnClickListener {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    baseContext,
+                    requestedMediaPermission
+                ) -> {
+                    val intent = Intent()
+                    intent.action = ACTION_GET_CONTENT
+                    intent.type = "image/*"
+                    val picker = Intent.createChooser(intent, "Pick a Picture")
+                    launcherIntentGallery.launch(picker)
+                }
+                else -> {
+                    requestPermissionLauncher.launch(requestedMediaPermission)
+                }
             }
+        }
 
-            binding.btnAdd.setOnClickListener {
+        binding.btnAdd.setOnClickListener {
+            if (getFile == null){
+                Toast.makeText(this@NewStoryActivity, "Take or Pick your Photo First", Toast.LENGTH_SHORT).show()
+            } else if (binding.edAddDescription.text.toString() == ""){
+                binding.edAddDescription.error = "Please Add Description"
+            } else {
                 binding.progressBar.visibility = View.VISIBLE
                 postImage()
                 val i = Intent(this@NewStoryActivity, StoryActivity::class.java)
                 finish()
                 startActivity(i)
             }
-
         }
     }
 
@@ -211,9 +212,7 @@ class NewStoryActivity : AppCompatActivity() {
 
     private fun postImage(){
         if (getFile != null) {
-
             val file = reduceFileImage(getFile as File)
-
             val description = binding.edAddDescription.text.toString().toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
