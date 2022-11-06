@@ -26,6 +26,7 @@ import com.saifer.storyapp.api.ApiConfig
 import com.saifer.storyapp.api.responses.NewStoryResponse
 import com.saifer.storyapp.databinding.ActivityNewStoryBinding
 import com.saifer.storyapp.session.SessionManager
+import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -37,6 +38,7 @@ import retrofit2.Response
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.schedule
 
 class NewStoryActivity : AppCompatActivity() {
 
@@ -117,9 +119,12 @@ class NewStoryActivity : AppCompatActivity() {
             } else {
                 binding.progressBar.visibility = View.VISIBLE
                 postImage()
-                val i = Intent(this@NewStoryActivity, StoryActivity::class.java)
-                finish()
-                startActivity(i)
+
+                Timer().schedule(2000){
+                    val i = Intent(this@NewStoryActivity, StoryActivity::class.java)
+                    finish()
+                    startActivity(i)
+                }
             }
         }
     }
