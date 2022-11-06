@@ -1,20 +1,18 @@
 package com.saifer.storyapp.story
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.saifer.storyapp.MainActivity
 import com.saifer.storyapp.R
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
-import com.saifer.storyapp.ui.CustomButton
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoryBinding

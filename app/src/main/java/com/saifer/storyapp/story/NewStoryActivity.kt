@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -59,14 +58,14 @@ class NewStoryActivity : AppCompatActivity() {
             if (!allPermissionsGranted()) {
                 Toast.makeText(
                     this,
-                    "Tidak mendapatkan Izin Akses Media",
+                    "Media access permission not granted",
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
             } else {
                 Toast.makeText(
                     this,
-                    "Akses media diizinkan",
+                    "Media Access Granted",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -241,13 +240,13 @@ class NewStoryActivity : AppCompatActivity() {
                     }
                 }
                 override fun onFailure(call: Call<NewStoryResponse>, t: Throwable) {
-                    Toast.makeText(this@NewStoryActivity, "Upload Gagal", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NewStoryActivity, "Upload failed", Toast.LENGTH_SHORT).show()
                     binding.progressBar.visibility = View.GONE
                 }
             })
         } else {
             binding.progressBar.visibility = View.GONE
-            Toast.makeText(this@NewStoryActivity, "Upload Gagal.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@NewStoryActivity, "Upload Failed.", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -1,22 +1,11 @@
 package com.saifer.storyapp.story
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.saifer.storyapp.R
-import com.saifer.storyapp.api.ApiConfig
 import com.saifer.storyapp.api.data.StoryModel
-import com.saifer.storyapp.api.responses.DetailStoryResponse
 import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.session.SessionManager
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailStoryActivity : AppCompatActivity() {
 

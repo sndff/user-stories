@@ -1,12 +1,10 @@
 package com.saifer.storyapp.story
 
-import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
@@ -17,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saifer.storyapp.adapter.ListStoryAdapter
 import com.saifer.storyapp.api.ApiConfig
 import com.saifer.storyapp.api.data.StoryModel
-import com.saifer.storyapp.api.responses.DetailStoryResponse
 import com.saifer.storyapp.api.responses.StoriesResponse
-import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import retrofit2.Call

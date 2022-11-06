@@ -2,7 +2,6 @@ package com.saifer.storyapp.login
 
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -29,11 +28,11 @@ class RegisterActivity : AppCompatActivity() {
 
         btnRegister.setOnClickListener {
             if (binding.edRegisterName.text.toString() == ""){
-                binding.edRegisterName.error = "Nama tidak boleh kosong"
+                binding.edRegisterName.error = "Name should not empty"
             } else if (binding.edRegisterEmail.text.toString() == ""){
-                binding.edRegisterEmail.error = "Email tidak boleh kosong"
+                binding.edRegisterEmail.error = "Email should not empty"
             } else if (binding.edRegisterPassword.text.toString() == "") {
-                binding.edRegisterPassword.error = "Password tidak boleh kosong"
+                binding.edRegisterPassword.error = "Password should not empty"
             } else {
                 binding.progressBar.visibility = View.VISIBLE
                 viewModel.register(this@RegisterActivity, binding.edRegisterName.text.toString(), binding.edRegisterEmail.text.toString(), binding.edRegisterPassword.text.toString(), binding)

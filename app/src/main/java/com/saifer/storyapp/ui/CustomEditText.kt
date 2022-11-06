@@ -6,14 +6,11 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.saifer.storyapp.R
-import okio.utf8Size
 
 class CustomEditText: AppCompatEditText, View.OnTouchListener {
     private lateinit var clearButtonImage : Drawable

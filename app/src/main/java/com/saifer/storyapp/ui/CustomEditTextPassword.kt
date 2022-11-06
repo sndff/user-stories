@@ -6,14 +6,11 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.saifer.storyapp.R
-import okio.utf8Size
 
 class CustomEditTextPassword: AppCompatEditText, View.OnTouchListener {
     private lateinit var clearButtonImage : Drawable
@@ -40,7 +37,7 @@ class CustomEditTextPassword: AppCompatEditText, View.OnTouchListener {
             }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
-                error = if(s.count() < 6) "Minimal 6 Karakter" else null
+                error = if(s.count() < 6) "6 Character Minimal" else null
             }
             override fun afterTextChanged(s: Editable) {
                 // Do Nothing

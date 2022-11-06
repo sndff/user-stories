@@ -20,7 +20,6 @@ import com.saifer.storyapp.story.StoryActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.sign
 
 class LoginRegisterViewModel: ViewModel() {
     private lateinit var loginModel: LoginModel
@@ -48,12 +47,10 @@ class LoginRegisterViewModel: ViewModel() {
                 } else {
                     binding.progressBar.visibility = View.GONE
                     if (response.code() == 401){
-                        Toast.makeText(activity, "Akun tidak ditemukan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "Account not Found", Toast.LENGTH_SHORT).show()
                     } else if(response.code() == 400) {
-                        Toast.makeText(activity, "Format Email Salah", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "Email Format may wrong", Toast.LENGTH_SHORT).show()
                     }
-                    // 401 : akun tidak ditemukan
-                    // 400 : format email tidak valid
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
@@ -82,9 +79,8 @@ class LoginRegisterViewModel: ViewModel() {
                 } else {
                     binding.progressBar.visibility = View.GONE
                     if (response.code() == 400){
-                        Toast.makeText(activity, "Error! Format data mungkin salah, cek kembali data anda", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "Error! Data format may wrong, please recheck your data", Toast.LENGTH_SHORT).show()
                     }
-                    // 400 : Untuk nama yang kosong, atau email salah format, atau password yang kosong
                 }
             }
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {

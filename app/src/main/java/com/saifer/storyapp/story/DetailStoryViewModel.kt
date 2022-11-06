@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.saifer.storyapp.api.ApiConfig
-import com.saifer.storyapp.api.data.StoryModel
 import com.saifer.storyapp.api.responses.DetailStoryResponse
 import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.session.SessionManager
