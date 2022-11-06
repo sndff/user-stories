@@ -15,9 +15,11 @@
     <string name="toast_access_denied">Akses tidak diberikan, fungsi tidak dapat berjalan</string>
     <string name="error_upload_failed">Upload gagal</string>
     <string name="logged_out">Telah logout</string>
-    <string name="login_error_input_email">Input email</string>
-    <string name="login_error_input_password">Input Password</string>
+    <string name="login_error_input_email">Masukkan email</string>
+    <string name="login_error_input_password">Masukkan Password</string>
     <string name="register_error_name">Nama tidak boleh kosong</string>
     <string name="register_error_email">Email tidak boleh kosong</string>
     <string name="register_error_password">Password tidak boleh kosong</string>
+    <string name="custom_ed_password_minimal_input">Minimal 6 Karakter</string>
+
 </resources>

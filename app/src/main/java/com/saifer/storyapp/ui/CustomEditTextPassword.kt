@@ -37,7 +37,7 @@ class CustomEditTextPassword: AppCompatEditText, View.OnTouchListener {
             }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
-                error = if(s.count() < 6) "6 Character Minimal" else null
+                error = if(s.count() < 6) context.getString(R.string.custom_ed_password_minimal_input) else null
             }
             override fun afterTextChanged(s: Editable) {
                 // Do Nothing
