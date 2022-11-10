@@ -1,5 +1,6 @@
 package com.saifer.storyapp.story
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -30,6 +31,7 @@ class StoryActivity : AppCompatActivity() {
 
         session  = SessionManager(this@StoryActivity)
 
+
         rvStory = binding.rvStory
         rvStory.setHasFixedSize(true)
         binding.progressBar.visibility = View.VISIBLE
@@ -38,7 +40,6 @@ class StoryActivity : AppCompatActivity() {
         binding.fbNewStory.setOnClickListener{
             val i = Intent(this@StoryActivity, NewStoryActivity::class.java)
             startActivity(i)
-
         }
     }
 

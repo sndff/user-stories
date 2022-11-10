@@ -26,7 +26,6 @@ import com.saifer.storyapp.api.ApiConfig
 import com.saifer.storyapp.api.responses.NewStoryResponse
 import com.saifer.storyapp.databinding.ActivityNewStoryBinding
 import com.saifer.storyapp.session.SessionManager
-import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -122,6 +121,7 @@ class NewStoryActivity : AppCompatActivity() {
 
                 Timer().schedule(2000){
                     val i = Intent(this@NewStoryActivity, StoryActivity::class.java)
+                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     finish()
                     startActivity(i)
                 }
