@@ -1,9 +1,9 @@
-package com.saifer.storyapp.story
+package com.saifer.storyapp.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.saifer.storyapp.api.data.StoryModel
+import com.saifer.storyapp.data.remote.model.StoryModel
 import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.session.SessionManager
 

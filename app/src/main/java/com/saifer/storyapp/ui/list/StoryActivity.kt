@@ -1,4 +1,4 @@
-package com.saifer.storyapp.story
+package com.saifer.storyapp.ui.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.saifer.storyapp.MainActivity
 import com.saifer.storyapp.R
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
+import com.saifer.storyapp.ui.post.NewStoryActivity
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoryBinding
@@ -30,12 +31,10 @@ class StoryActivity : AppCompatActivity() {
 
         session  = SessionManager(this@StoryActivity)
 
-
         rvStory = binding.rvStory
         rvStory.setHasFixedSize(true)
         binding.progressBar.visibility = View.VISIBLE
         viewModel.getAllStories(this@StoryActivity, rvStory, session, binding)
-
         binding.fbNewStory.setOnClickListener{
             val i = Intent(this@StoryActivity, NewStoryActivity::class.java)
             startActivity(i)
@@ -61,7 +60,11 @@ class StoryActivity : AppCompatActivity() {
                 val i = Intent(this@StoryActivity, MainActivity::class.java)
                 finish()
                 startActivity(i)
-                Toast.makeText(this@StoryActivity, getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@StoryActivity,
+                    getString(R.string.logged_out),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             else -> {

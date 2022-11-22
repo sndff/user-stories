@@ -1,4 +1,4 @@
-package com.saifer.storyapp.story
+package com.saifer.storyapp.ui.detail
 
 import android.util.Log
 import android.view.View
@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.saifer.storyapp.api.ApiConfig
-import com.saifer.storyapp.api.responses.DetailStoryResponse
+import com.saifer.storyapp.data.remote.retrofit.ApiConfig
+import com.saifer.storyapp.data.remote.responses.DetailStoryResponse
 import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import retrofit2.Call

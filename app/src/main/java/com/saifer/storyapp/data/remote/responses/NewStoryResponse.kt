@@ -1,4 +1,4 @@
-package com.saifer.storyapp.api.responses
+package com.saifer.storyapp.data.remote.responses
 
 import com.google.gson.annotations.SerializedName
 

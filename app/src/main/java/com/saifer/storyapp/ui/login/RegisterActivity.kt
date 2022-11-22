@@ -1,4 +1,4 @@
-package com.saifer.storyapp.login
+package com.saifer.storyapp.ui.login
 
 import android.os.Bundle
 import android.view.View

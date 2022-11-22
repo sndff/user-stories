@@ -1,8 +1,8 @@
-package com.saifer.storyapp.api
+package com.saifer.storyapp.data.remote.retrofit
 
-import com.saifer.storyapp.api.data.LoginModel
-import com.saifer.storyapp.api.data.RegisterModel
-import com.saifer.storyapp.api.responses.*
+import com.saifer.storyapp.data.remote.model.LoginModel
+import com.saifer.storyapp.data.remote.model.RegisterModel
+import com.saifer.storyapp.data.remote.responses.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

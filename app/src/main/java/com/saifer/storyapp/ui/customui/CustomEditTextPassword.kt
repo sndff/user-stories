@@ -1,4 +1,4 @@
-package com.saifer.storyapp.ui
+package com.saifer.storyapp.ui.customui
 
 import android.content.Context
 import android.graphics.Canvas
@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.saifer.storyapp.R
 
-class CustomEditText: AppCompatEditText, View.OnTouchListener {
+class CustomEditTextPassword: AppCompatEditText, View.OnTouchListener {
     private lateinit var clearButtonImage : Drawable
 
     constructor(context: Context) : super(context){
@@ -37,6 +37,7 @@ class CustomEditText: AppCompatEditText, View.OnTouchListener {
             }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
+                error = if(s.count() < 6) context.getString(R.string.custom_ed_password_minimal_input) else null
             }
             override fun afterTextChanged(s: Editable) {
                 // Do Nothing

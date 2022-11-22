@@ -1,4 +1,4 @@
-package com.saifer.storyapp.story
+package com.saifer.storyapp.ui.list
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -12,12 +12,13 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.saifer.storyapp.adapter.ListStoryAdapter
-import com.saifer.storyapp.api.ApiConfig
-import com.saifer.storyapp.api.data.StoryModel
-import com.saifer.storyapp.api.responses.StoriesResponse
+import com.saifer.storyapp.data.remote.retrofit.ApiConfig
+import com.saifer.storyapp.data.remote.model.StoryModel
+import com.saifer.storyapp.data.remote.responses.StoriesResponse
+import com.saifer.storyapp.data.repositories.ListStoryRepository
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
+import com.saifer.storyapp.ui.detail.DetailStoryActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,7 +53,9 @@ class StoryViewModel : ViewModel(){
         val intentDetailStoryActivity = Intent(activity, DetailStoryActivity::class.java)
 
         intentDetailStoryActivity.putExtra(DetailStoryActivity.EXTRA_USER, story)
-        activity.startActivity(intentDetailStoryActivity, ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle())
+        activity.startActivity(intentDetailStoryActivity, ActivityOptionsCompat.makeSceneTransitionAnimation(
+            activity
+        ).toBundle())
     }
 
     fun getAllStories(activity: AppCompatActivity, rv: RecyclerView, sessionManager: SessionManager, binding: ActivityStoryBinding){

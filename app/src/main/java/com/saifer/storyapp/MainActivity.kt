@@ -3,9 +3,9 @@ package com.saifer.storyapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.saifer.storyapp.login.LoginActivity
+import com.saifer.storyapp.ui.login.LoginActivity
 import com.saifer.storyapp.session.SessionManager
-import com.saifer.storyapp.story.StoryActivity
+import com.saifer.storyapp.ui.list.StoryActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){

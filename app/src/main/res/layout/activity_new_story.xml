@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".story.NewStoryActivity">
+    tools:context=".ui.post.NewStoryActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.saifer.storyapp.ui.CustomButton
+    <com.saifer.storyapp.ui.customui.CustomButton
         android:id="@+id/btn_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_preview" />
 
-    <com.saifer.storyapp.ui.CustomButton
+    <com.saifer.storyapp.ui.customui.CustomButton
         android:id="@+id/btn_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toEndOf="@id/btn_camera"
         app:layout_constraintTop_toBottomOf="@id/img_preview" />
 
-    <com.saifer.storyapp.ui.CustomEditText
+    <com.saifer.storyapp.ui.customui.CustomEditText
         android:id="@+id/ed_add_description"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -53,7 +53,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_camera" />
 
-    <com.saifer.storyapp.ui.CustomButton
+    <com.saifer.storyapp.ui.customui.CustomButton
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

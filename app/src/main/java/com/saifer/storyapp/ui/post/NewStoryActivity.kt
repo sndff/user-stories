@@ -1,10 +1,9 @@
-package com.saifer.storyapp.story
+package com.saifer.storyapp.ui.post
 
 import android.Manifest
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -22,10 +21,11 @@ import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.saifer.storyapp.R
-import com.saifer.storyapp.api.ApiConfig
-import com.saifer.storyapp.api.responses.NewStoryResponse
+import com.saifer.storyapp.data.remote.retrofit.ApiConfig
+import com.saifer.storyapp.data.remote.responses.NewStoryResponse
 import com.saifer.storyapp.databinding.ActivityNewStoryBinding
 import com.saifer.storyapp.session.SessionManager
+import com.saifer.storyapp.ui.list.StoryActivity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -55,9 +55,17 @@ class NewStoryActivity : AppCompatActivity() {
 
         val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                Toast.makeText(this@NewStoryActivity, getString(R.string.toast_access_granted), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@NewStoryActivity,
+                    getString(R.string.toast_access_granted),
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                Toast.makeText(this@NewStoryActivity, getString(R.string.toast_access_denied), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@NewStoryActivity,
+                    getString(R.string.toast_access_denied),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -99,7 +107,7 @@ class NewStoryActivity : AppCompatActivity() {
                     requestedMediaPermission
                 ) -> {
                     val intent = Intent()
-                    intent.action = ACTION_GET_CONTENT
+                    intent.action = Intent.ACTION_GET_CONTENT
                     intent.type = "image/*"
                     val picker = Intent.createChooser(intent, "Pick a Picture")
                     launcherIntentGallery.launch(picker)
@@ -112,7 +120,11 @@ class NewStoryActivity : AppCompatActivity() {
 
         binding.btnAdd.setOnClickListener {
             if (getFile == null){
-                Toast.makeText(this@NewStoryActivity, "Take or Pick your Photo First", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@NewStoryActivity,
+                    "Take or Pick your Photo First",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else if (binding.edAddDescription.text.toString() == ""){
                 binding.edAddDescription.error = "Please Add Description"
             } else {
@@ -236,22 +248,38 @@ class NewStoryActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null && !responseBody.error!!) {
-                            Toast.makeText(this@NewStoryActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@NewStoryActivity,
+                                responseBody.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
                             binding.progressBar.visibility = View.GONE
                         }
                     } else {
-                        Toast.makeText(this@NewStoryActivity, response.message(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@NewStoryActivity,
+                            response.message(),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         binding.progressBar.visibility = View.GONE
                     }
                 }
                 override fun onFailure(call: Call<NewStoryResponse>, t: Throwable) {
-                    Toast.makeText(this@NewStoryActivity, getString(R.string.error_upload_failed), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@NewStoryActivity,
+                        getString(R.string.error_upload_failed),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     binding.progressBar.visibility = View.GONE
                 }
             })
         } else {
             binding.progressBar.visibility = View.GONE
-            Toast.makeText(this@NewStoryActivity, getString(R.string.error_upload_failed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@NewStoryActivity,
+                getString(R.string.error_upload_failed),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

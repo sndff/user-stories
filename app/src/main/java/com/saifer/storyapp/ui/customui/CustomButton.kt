@@ -1,4 +1,4 @@
-package com.saifer.storyapp.ui
+package com.saifer.storyapp.ui.customui
 
 import android.content.Context
 import android.graphics.Canvas

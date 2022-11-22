@@ -1,4 +1,4 @@
-package com.saifer.storyapp.login
+package com.saifer.storyapp.ui.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -8,15 +8,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.saifer.storyapp.api.ApiConfig
-import com.saifer.storyapp.api.data.LoginModel
-import com.saifer.storyapp.api.data.RegisterModel
-import com.saifer.storyapp.api.responses.LoginResponse
-import com.saifer.storyapp.api.responses.RegisterResponse
+import com.saifer.storyapp.data.remote.retrofit.ApiConfig
+import com.saifer.storyapp.data.remote.model.LoginModel
+import com.saifer.storyapp.data.remote.model.RegisterModel
+import com.saifer.storyapp.data.remote.responses.LoginResponse
+import com.saifer.storyapp.data.remote.responses.RegisterResponse
 import com.saifer.storyapp.databinding.ActivityLoginBinding
 import com.saifer.storyapp.databinding.ActivityRegisterBinding
 import com.saifer.storyapp.session.SessionManager
-import com.saifer.storyapp.story.StoryActivity
+import com.saifer.storyapp.ui.list.StoryActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

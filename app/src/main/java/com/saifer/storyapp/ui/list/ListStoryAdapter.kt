@@ -1,4 +1,4 @@
-package com.saifer.storyapp.adapter
+package com.saifer.storyapp.ui.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.saifer.storyapp.R
-import com.saifer.storyapp.api.data.StoryModel
+import com.saifer.storyapp.data.remote.model.StoryModel
 
 class ListStoryAdapter (private val listStory: ArrayList<StoryModel>): RecyclerView.Adapter<ListStoryAdapter.ListViewHolder>(){
 
@@ -24,7 +24,7 @@ class ListStoryAdapter (private val listStory: ArrayList<StoryModel>): RecyclerV
         fun onItemClicked(data: StoryModel)
     }
 
-    class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var imgPhoto: ImageView = itemView.findViewById(R.id.iv_item_photo)
         var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
         var tvDesc: TextView = itemView.findViewById(R.id.tv_item_desc)

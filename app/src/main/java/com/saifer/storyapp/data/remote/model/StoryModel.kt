@@ -1,4 +1,4 @@
-package com.saifer.storyapp.api.data
+package com.saifer.storyapp.data.remote.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
