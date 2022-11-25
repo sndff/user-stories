@@ -21,7 +21,10 @@ interface ApiService {
 
     @GET("stories")
     fun getStories(
-        @Header("Authorization") header: String?
+        @Header("Authorization") header: String?,
+        @Query("page") page: String? = null,
+        @Query("size") size: String? = null,
+        @Query("location") location: String? = null
     ): Call<StoriesResponse>
 
     @GET("stories/{id}")

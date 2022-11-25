@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.saifer.storyapp.R
-import com.saifer.storyapp.data.remote.model.StoryModel
+import com.saifer.storyapp.data.remote.responses.ListStoryItem
 
-class ListStoryAdapter (private val listStory: ArrayList<StoryModel>): RecyclerView.Adapter<ListStoryAdapter.ListViewHolder>(){
+class ListStoryAdapter (private val listStory: List<ListStoryItem>): RecyclerView.Adapter<ListStoryAdapter.ListViewHolder>(){
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -21,7 +21,7 @@ class ListStoryAdapter (private val listStory: ArrayList<StoryModel>): RecyclerV
     }
 
     interface OnItemClickCallback : AdapterView.OnItemClickListener {
-        fun onItemClicked(data: StoryModel)
+        fun onItemClicked(data: ListStoryItem?)
     }
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -37,7 +37,9 @@ class ListStoryAdapter (private val listStory: ArrayList<StoryModel>): RecyclerV
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (img, name, desc) = listStory[position]
+        val img = listStory[position].photoUrl
+        val name = listStory[position].name
+        val desc = listStory[position].description
         Glide.with(holder.itemView.context)
             .load(img)
             .apply( RequestOptions().override(500,500))

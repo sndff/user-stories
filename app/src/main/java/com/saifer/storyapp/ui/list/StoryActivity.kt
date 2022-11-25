@@ -34,7 +34,7 @@ class StoryActivity : AppCompatActivity() {
         rvStory = binding.rvStory
         rvStory.setHasFixedSize(true)
         binding.progressBar.visibility = View.VISIBLE
-        viewModel.getAllStories(this@StoryActivity, rvStory, session, binding)
+        viewModel.story(this, session, binding)
         binding.fbNewStory.setOnClickListener{
             val i = Intent(this@StoryActivity, NewStoryActivity::class.java)
             startActivity(i)
@@ -52,7 +52,7 @@ class StoryActivity : AppCompatActivity() {
 
             R.id.btn_refresh -> {
                 binding.progressBar.visibility = View.VISIBLE
-                viewModel.getAllStories(this@StoryActivity, rvStory, session, binding)
+                viewModel.story(this, session, binding)
                 return true
             }
             R.id.btn_logout -> {

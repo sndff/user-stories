@@ -3,7 +3,6 @@ package com.saifer.storyapp.ui.detail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.saifer.storyapp.data.remote.model.StoryModel
 import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.session.SessionManager
 
@@ -21,10 +20,9 @@ class DetailStoryActivity : AppCompatActivity() {
         val session = SessionManager(this@DetailStoryActivity)
         viewModel = ViewModelProvider(this)[DetailStoryViewModel::class.java]
 
-        val story = intent.getParcelableExtra<StoryModel>(EXTRA_USER) as StoryModel
+        val id = intent.getStringExtra(EXTRA_USER)
 
-        viewModel.getDetailStory(this@DetailStoryActivity, binding, story.id, session)
-
+        viewModel.detail(id!!, session, binding, this)
     }
 
     companion object {
