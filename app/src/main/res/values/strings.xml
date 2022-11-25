@@ -20,4 +20,5 @@
     <string name="register_error_email">Email should not empty</string>
     <string name="register_error_password">Password should not empty</string>
     <string name="custom_ed_password_minimal_input">6 Character Minimal</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

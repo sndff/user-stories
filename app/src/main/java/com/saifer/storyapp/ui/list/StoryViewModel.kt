@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saifer.storyapp.data.remote.retrofit.ApiConfig
 import com.saifer.storyapp.data.remote.model.StoryModel
 import com.saifer.storyapp.data.remote.responses.StoriesResponse
-import com.saifer.storyapp.data.repositories.ListStoryRepository
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import com.saifer.storyapp.ui.detail.DetailStoryActivity
