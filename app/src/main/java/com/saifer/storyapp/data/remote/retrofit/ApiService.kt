@@ -22,9 +22,9 @@ interface ApiService {
     @GET("stories")
     fun getStories(
         @Header("Authorization") header: String?,
+        @Query("location") location: String? = null,
         @Query("page") page: String? = null,
-        @Query("size") size: String? = null,
-        @Query("location") location: String? = null
+        @Query("size") size: String? = null
     ): Call<StoriesResponse>
 
     @GET("stories/{id}")
@@ -38,6 +38,8 @@ interface ApiService {
     fun uploadImage(
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
+        @Part("lat") lat: RequestBody?,
+        @Part("lon") lon: RequestBody?,
         @Header("Authorization") header: String?
     ): Call<NewStoryResponse>
 }

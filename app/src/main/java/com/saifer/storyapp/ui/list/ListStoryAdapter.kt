@@ -1,5 +1,6 @@
 package com.saifer.storyapp.ui.list
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.saifer.storyapp.R
 import com.saifer.storyapp.data.remote.responses.ListStoryItem
+import com.saifer.storyapp.databinding.ItemStoryBinding
 
 class ListStoryAdapter (private val listStory: List<ListStoryItem>): RecyclerView.Adapter<ListStoryAdapter.ListViewHolder>(){
 
@@ -48,7 +50,7 @@ class ListStoryAdapter (private val listStory: List<ListStoryItem>): RecyclerVie
         holder.tvDesc.text = desc
 
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listStory[holder.adapterPosition])
+            onItemClickCallback.onItemClicked(listStory[holder.absoluteAdapterPosition])
         }
     }
 

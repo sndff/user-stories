@@ -20,12 +20,12 @@ class DetailStoryActivity : AppCompatActivity() {
         val session = SessionManager(this@DetailStoryActivity)
         viewModel = ViewModelProvider(this)[DetailStoryViewModel::class.java]
 
-        val id = intent.getStringExtra(EXTRA_USER)
+        val id = intent.getStringExtra(ID)
 
         viewModel.detail(id!!, session, binding, this)
     }
 
     companion object {
-        var EXTRA_USER = ""
+        var ID = ""
     }
 }

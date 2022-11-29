@@ -13,6 +13,7 @@ import com.saifer.storyapp.MainActivity
 import com.saifer.storyapp.R
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
+import com.saifer.storyapp.ui.map.MapsActivity
 import com.saifer.storyapp.ui.post.NewStoryActivity
 
 class StoryActivity : AppCompatActivity() {
@@ -53,6 +54,11 @@ class StoryActivity : AppCompatActivity() {
             R.id.btn_refresh -> {
                 binding.progressBar.visibility = View.VISIBLE
                 viewModel.story(this, session, binding)
+                return true
+            }
+            R.id.btn_map ->{
+                val i = Intent(this@StoryActivity, MapsActivity::class.java)
+                startActivity(i)
                 return true
             }
             R.id.btn_logout -> {

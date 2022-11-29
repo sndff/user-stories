@@ -9,6 +9,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/btn_map"
+        android:icon="@drawable/ic_map"
+        android:title="Map"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/btn_logout"
         android:icon="@drawable/ic_logout"
         android:title="Logout"

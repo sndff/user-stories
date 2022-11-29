@@ -35,6 +35,10 @@ class StoryRepository() {
         executorService.execute { detailStory(id, sessionManager) }
     }
 
+    fun getStoryWithLocation(sessionManager: SessionManager){
+        executorService.execute { getStoriesWithLocation(sessionManager) }
+    }
+
 
     private fun getStories(sessionManager: SessionManager){
         val client = ApiConfig.getApiService().getStories("Bearer ${sessionManager.getToken()}")
@@ -53,8 +57,21 @@ class StoryRepository() {
         })
     }
 
-    fun getStoriesWithLocation(){
-
+    fun getStoriesWithLocation(sessionManager: SessionManager){
+        val client = ApiConfig.getApiService().getStories("Bearer ${sessionManager.getToken()}", "1")
+        client.enqueue(object : Callback<StoriesResponse> {
+            override fun onResponse(
+                call: Call<StoriesResponse>,
+                response: Response<StoriesResponse>
+            ) {
+                if (response.body() != null){
+                    _stories.value = response.body()?.listStory
+                }
+            }
+            override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
+                Log.e("Error on Story Activity", "${t.message}")
+            }
+        })
     }
 
     fun detailStory(id: String, sessionManager: SessionManager){

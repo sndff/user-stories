@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.maps.GoogleMap
 import com.saifer.storyapp.R
 import com.saifer.storyapp.data.remote.retrofit.ApiConfig
 import com.saifer.storyapp.data.remote.responses.NewStoryResponse
@@ -229,6 +230,8 @@ class NewStoryActivity : AppCompatActivity() {
     }
 
     private fun postImage(){
+        val lat = intent.getStringExtra("lat")?.toRequestBody("float".toMediaTypeOrNull())
+        val lon = intent.getStringExtra("lon")?.toRequestBody("float".toMediaTypeOrNull())
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
             val description = binding.edAddDescription.text.toString().toRequestBody("text/plain".toMediaType())
@@ -238,8 +241,7 @@ class NewStoryActivity : AppCompatActivity() {
                 file.name,
                 requestImageFile
             )
-
-            val client = ApiConfig.getApiService().uploadImage(imageMultipart, description, "Bearer ${sessionManager.getToken()}")
+            val client = ApiConfig.getApiService().uploadImage(imageMultipart, description, lat, lon, "Bearer ${sessionManager.getToken()}")
             client.enqueue(object : Callback<NewStoryResponse> {
                 override fun onResponse(
                     call: Call<NewStoryResponse>,
@@ -297,4 +299,10 @@ class NewStoryActivity : AppCompatActivity() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
         return file
     }
+
+    companion object {
+        var lat = "lat"
+        var lon = "lon"
+    }
+
 }

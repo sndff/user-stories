@@ -58,7 +58,7 @@ class StoryViewModel : ViewModel(){
     fun showSelectedStory(activity: AppCompatActivity, story: ListStoryItem?) {
         val intentDetailStoryActivity = Intent(activity, DetailStoryActivity::class.java)
 
-        intentDetailStoryActivity.putExtra(DetailStoryActivity.EXTRA_USER, story!!.id)
+        intentDetailStoryActivity.putExtra(DetailStoryActivity.ID, story!!.id)
         activity.startActivity(intentDetailStoryActivity, ActivityOptionsCompat.makeSceneTransitionAnimation(
             activity
         ).toBundle())
