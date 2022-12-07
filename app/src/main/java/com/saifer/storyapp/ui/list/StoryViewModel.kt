@@ -1,5 +1,6 @@
 package com.saifer.storyapp.ui.list
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.view.View
@@ -7,60 +8,29 @@ import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.saifer.storyapp.data.di.Injection
 import com.saifer.storyapp.data.remote.responses.ListStoryItem
 import com.saifer.storyapp.data.repositories.StoryRepository
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import com.saifer.storyapp.ui.detail.DetailStoryActivity
 
-class StoryViewModel : ViewModel(){
+class StoryViewModel(private val repository: StoryRepository) : ViewModel(){
+    fun story(token: String) = repository.getStoryPaging(token).cachedIn(viewModelScope)
+}
 
-    private val repository = StoryRepository()
-
-    fun story(activity: AppCompatActivity, sessionManager: SessionManager, binding: ActivityStoryBinding){
-        var stories: List<ListStoryItem>
-        repository.getAllStories(sessionManager)
-        repository.stories.observeForever {
-            stories = it
-            showStory(activity, binding.rvStory, stories)
-            binding.progressBar.visibility = View.GONE
+class StoryViewModelFactory() : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(StoryViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return StoryViewModel(Injection.provideRepository()) as T
         }
-    }
-
-    private fun showStory(activity: AppCompatActivity, rv: RecyclerView, data: List<ListStoryItem>) {
-        if(activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            rv.layoutManager = GridLayoutManager(activity, 2)
-        } else {
-            rv.layoutManager = LinearLayoutManager(activity)
-        }
-        val listStoryAdapter = ListStoryAdapter(data)
-        rv.adapter = listStoryAdapter
-
-        listStoryAdapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ListStoryItem?) {
-                showSelectedStory(activity, data)
-            }
-
-            override fun onItemClick(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                // do nothing
-            }
-        })
-    }
-
-    fun showSelectedStory(activity: AppCompatActivity, story: ListStoryItem?) {
-        val intentDetailStoryActivity = Intent(activity, DetailStoryActivity::class.java)
-
-        intentDetailStoryActivity.putExtra(DetailStoryActivity.ID, story!!.id)
-        activity.startActivity(intentDetailStoryActivity, ActivityOptionsCompat.makeSceneTransitionAnimation(
-            activity
-        ).toBundle())
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

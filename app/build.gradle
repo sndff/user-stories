@@ -20,14 +20,13 @@ android {
         buildConfigField("String", "BASE_URL", '"https://story-api.dicoding.dev/v1/"')
     }
 
-    buildFeatures{
-        viewBinding true
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        customDebugType{
+            debuggable true
         }
     }
     compileOptions {
@@ -48,23 +47,32 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.annotation:annotation:1.5.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.room:room-common:2.4.3'
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     implementation 'com.github.bumptech.glide:glide:4.13.2'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
     implementation "androidx.security:security-crypto:1.0.0"
+
+    // retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+
+    // camera
     implementation "androidx.camera:camera-camera2:1.1.0"
     implementation "androidx.camera:camera-lifecycle:1.1.0"
     implementation "androidx.camera:camera-view:1.1.0"
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    // paging
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+
     // google play service API
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // viewmodel and livedata
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.activity:activity-ktx:1.6.1'
 }

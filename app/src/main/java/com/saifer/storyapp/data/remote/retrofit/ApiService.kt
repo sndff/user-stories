@@ -27,6 +27,13 @@ interface ApiService {
         @Query("size") size: String? = null
     ): Call<StoriesResponse>
 
+    @GET("stories")
+    suspend fun getStoriesPaging(
+        @Header("Authorization") header: String?,
+        @Query("page") page: String? = null,
+        @Query("size") size: String? = null
+    ): StoriesResponse
+
     @GET("stories/{id}")
     fun getDetailStory(
         @Path("id") id: String,

@@ -1,59 +1,53 @@
 package com.saifer.storyapp.ui.list
 
-import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.saifer.storyapp.R
 import com.saifer.storyapp.data.remote.responses.ListStoryItem
 import com.saifer.storyapp.databinding.ItemStoryBinding
+import com.saifer.storyapp.ui.detail.DetailStoryActivity
 
-class ListStoryAdapter (private val listStory: List<ListStoryItem>): RecyclerView.Adapter<ListStoryAdapter.ListViewHolder>(){
+class ListStoryAdapter: PagingDataAdapter<ListStoryItem, ListStoryAdapter.ListViewHolder>(DIFF_CALLBACK){
 
-    private lateinit var onItemClickCallback: OnItemClickCallback
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
-
-    interface OnItemClickCallback : AdapterView.OnItemClickListener {
-        fun onItemClicked(data: ListStoryItem?)
-    }
-
-    inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var imgPhoto: ImageView = itemView.findViewById(R.id.iv_item_photo)
-        var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
-        var tvDesc: TextView = itemView.findViewById(R.id.tv_item_desc)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_story, parent, false)
-        return ListViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val img = listStory[position].photoUrl
-        val name = listStory[position].name
-        val desc = listStory[position].description
-        Glide.with(holder.itemView.context)
-            .load(img)
-            .apply( RequestOptions().override(500,500))
-            .into(holder.imgPhoto)
-        holder.tvName.text = name
-        holder.tvDesc.text = desc
-
-        holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listStory[holder.absoluteAdapterPosition])
+    class ListViewHolder(private val binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(data: ListStoryItem){
+            Glide.with(itemView.context).load(data.photoUrl).into(binding.ivItemPhoto)
+            binding.tvItemName.text = data.name
+            binding.tvItemDesc.text = data.description
         }
     }
 
-    override fun getItemCount(): Int = listStory.size
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val data = getItem(position)
+        if (data != null){
+            holder.bind(data)
+            holder.itemView.setOnClickListener {
+                val intent = Intent(holder.itemView.context, DetailStoryActivity::class.java)
+                intent.putExtra(DetailStoryActivity.ID, data.id)
+                holder.itemView.context.startActivity(intent)
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ListViewHolder(binding)
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
+            override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
+    }
 
 }

@@ -1,15 +1,18 @@
 package com.saifer.storyapp.ui.detail
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.session.SessionManager
 
 class DetailStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailStoryBinding
-    private lateinit var viewModel: DetailStoryViewModel
+
+    private val viewModel: DetailStoryViewModel by viewModels {
+        DetailStoryViewModelFactory()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +21,6 @@ class DetailStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val session = SessionManager(this@DetailStoryActivity)
-        viewModel = ViewModelProvider(this)[DetailStoryViewModel::class.java]
 
         val id = intent.getStringExtra(ID)
 

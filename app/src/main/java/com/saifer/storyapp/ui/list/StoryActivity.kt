@@ -6,11 +6,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.saifer.storyapp.MainActivity
 import com.saifer.storyapp.R
+import com.saifer.storyapp.data.paging.LoadingStateAdapter
 import com.saifer.storyapp.databinding.ActivityStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import com.saifer.storyapp.ui.map.MapsActivity
@@ -18,9 +21,11 @@ import com.saifer.storyapp.ui.post.NewStoryActivity
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoryBinding
-    private lateinit var rvStory: RecyclerView
-    private lateinit var viewModel: StoryViewModel
     private lateinit var session: SessionManager
+
+    private val viewModel: StoryViewModel by viewModels {
+        StoryViewModelFactory()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,14 +33,10 @@ class StoryActivity : AppCompatActivity() {
         binding = ActivityStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[StoryViewModel::class.java]
-
         session  = SessionManager(this@StoryActivity)
 
-        rvStory = binding.rvStory
-        rvStory.setHasFixedSize(true)
-        binding.progressBar.visibility = View.VISIBLE
-        viewModel.story(this, session, binding)
+        getStory()
+
         binding.fbNewStory.setOnClickListener{
             val i = Intent(this@StoryActivity, NewStoryActivity::class.java)
             startActivity(i)
@@ -53,7 +54,7 @@ class StoryActivity : AppCompatActivity() {
 
             R.id.btn_refresh -> {
                 binding.progressBar.visibility = View.VISIBLE
-                viewModel.story(this, session, binding)
+                getStory()
                 return true
             }
             R.id.btn_map ->{
@@ -78,4 +79,19 @@ class StoryActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun getStory(){
+        binding.progressBar.visibility = View.GONE
+        val adapter = ListStoryAdapter()
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{
+                adapter.retry()
+            }
+        )
+        viewModel.story(session.getToken()!!).observe(this){
+            adapter.submitData(lifecycle, it)
+        }
+    }
+
 }
