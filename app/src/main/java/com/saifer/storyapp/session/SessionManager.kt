@@ -16,7 +16,7 @@ class SessionManager(var context: Context){
         return sessionPref?.getBoolean("is_login", false)
     }
 
-    fun setToken(token : String){
+    fun setToken(token : String?){
         editor?.putString("key", token)
         editor?.apply()
     }

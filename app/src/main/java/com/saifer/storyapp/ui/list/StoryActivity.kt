@@ -8,9 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.saifer.storyapp.MainActivity
 import com.saifer.storyapp.R
 import com.saifer.storyapp.data.paging.LoadingStateAdapter
@@ -34,7 +32,7 @@ class StoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         session  = SessionManager(this@StoryActivity)
-
+        
         getStory()
 
         binding.fbNewStory.setOnClickListener{

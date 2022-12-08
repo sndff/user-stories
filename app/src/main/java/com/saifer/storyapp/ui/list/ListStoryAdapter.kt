@@ -7,6 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.saifer.storyapp.data.remote.responses.ListStoryItem
 import com.saifer.storyapp.databinding.ItemStoryBinding
 import com.saifer.storyapp.ui.detail.DetailStoryActivity
@@ -15,7 +16,7 @@ class ListStoryAdapter: PagingDataAdapter<ListStoryItem, ListStoryAdapter.ListVi
 
     class ListViewHolder(private val binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(data: ListStoryItem){
-            Glide.with(itemView.context).load(data.photoUrl).into(binding.ivItemPhoto)
+            Glide.with(itemView.context).load(data.photoUrl).apply(RequestOptions().override(500, 500)).into(binding.ivItemPhoto)
             binding.tvItemName.text = data.name
             binding.tvItemDesc.text = data.description
         }
