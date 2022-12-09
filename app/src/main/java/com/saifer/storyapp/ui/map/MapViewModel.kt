@@ -13,7 +13,7 @@ class MapViewModel(val repository: StoryRepository) : ViewModel() {
     }
 }
 
-class MapViewModelFactory() : ViewModelProvider.Factory {
+class MapViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MapViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

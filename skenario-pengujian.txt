@@ -1,0 +1,14 @@
+1. Login Register ViewModel
+	a. ketika berhasil melakukan login
+		- memastikan mengembalikan Result.Success
+	b. ketika berhasil melakukan register
+		- memastikan mengembalikan Result.Success
+2. Story View Model
+	a. ketika berhasil memuat List Stories
+		- memastikan mengembalikan Result.Success
+3. Detail Story View Model
+	a. ketika berhasil memuat Detail Story
+		- memastikan mengembalikan Result.Success
+4. Map View Model
+	a. ketika berhasil memuat List Story Dengan Lokasi
+		- memastikan mengembalikan Result.Success

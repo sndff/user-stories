@@ -11,19 +11,10 @@ import com.saifer.storyapp.data.repositories.StoryRepository
 import com.saifer.storyapp.databinding.ActivityDetailStoryBinding
 import com.saifer.storyapp.session.SessionManager
 
-class DetailStoryViewModel(private val repository: StoryRepository) : ViewModel(){
+class DetailStoryViewModel(val repository: StoryRepository) : ViewModel(){
 
-    fun detail(id: String, sessionManager: SessionManager, binding: ActivityDetailStoryBinding, activity: AppCompatActivity){
+    fun detail(id: String, sessionManager: SessionManager){
         repository.getDetailStory(id, sessionManager)
-        repository.detail.observeForever {
-            Glide.with(activity.baseContext)
-                .load(it.photoUrl)
-                .apply( RequestOptions().override(1000,1000))
-                .into(binding.ivDetailPhoto)
-            binding.tvDetailName.text = it.name
-            binding.tvDetailDescription.text = it.description
-            binding.progressBar.visibility = View.GONE
-        }
     }
 }
 

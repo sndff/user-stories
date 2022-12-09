@@ -52,15 +52,16 @@ class LoginActivity : AppCompatActivity() {
     private fun login(email: String, password: String) {
         viewModel.login(email, password)
         viewModel.repository.token.observe(this){
-            while (it == null) {
+            if (it == null) {
                 binding.progressBar.visibility = View.VISIBLE
+            } else {
+                session.setToken(it)
+                session.setLogin(true)
+                binding.progressBar.visibility = View.GONE
+                val i = Intent(this, StoryActivity::class.java)
+                startActivity(i)
+                finish()
             }
-            session.setToken(it)
-            session.setLogin(true)
-            binding.progressBar.visibility = View.GONE
-            val i = Intent(this, StoryActivity::class.java)
-            startActivity(i)
-            finish()
         }
     }
 

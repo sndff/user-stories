@@ -3,7 +3,6 @@ package com.saifer.storyapp.ui.login
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -36,7 +35,6 @@ class RegisterActivity : AppCompatActivity() {
             } else if (binding.edRegisterPassword.text.toString() == "") {
                 binding.edRegisterPassword.error = getString(R.string.register_error_password)
             } else {
-                binding.progressBar.visibility = View.VISIBLE
                 register(
                     binding.edRegisterName.text.toString(),
                     binding.edRegisterEmail.text.toString(),
@@ -48,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun register(name: String, email: String, password: String) {
+        binding.progressBar.visibility = View.VISIBLE
         viewModel.register(name, email, password)
         viewModel.repository.status.observe(this){
             when (it) {

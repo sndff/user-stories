@@ -19,7 +19,7 @@ class LoginRegisterRepository(private val apiService: ApiService) {
     private lateinit var loginModel: LoginModel
     private lateinit var registerModel: RegisterModel
 
-    private var _token = MutableLiveData<String>()
+    private var _token = MutableLiveData<String>(null)
     val token: LiveData<String> = _token
 
     private var _status = MutableLiveData<Boolean?>(null)
