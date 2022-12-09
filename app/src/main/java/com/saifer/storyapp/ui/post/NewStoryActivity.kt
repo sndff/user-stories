@@ -20,10 +20,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.maps.GoogleMap
 import com.saifer.storyapp.R
-import com.saifer.storyapp.data.remote.retrofit.ApiConfig
 import com.saifer.storyapp.data.remote.responses.NewStoryResponse
+import com.saifer.storyapp.data.remote.retrofit.ApiConfig
 import com.saifer.storyapp.databinding.ActivityNewStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import com.saifer.storyapp.ui.list.StoryActivity
@@ -299,10 +298,4 @@ class NewStoryActivity : AppCompatActivity() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
         return file
     }
-
-    companion object {
-        var lat = "lat"
-        var lon = "lon"
-    }
-
 }

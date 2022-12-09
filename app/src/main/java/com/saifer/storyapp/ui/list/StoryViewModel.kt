@@ -2,8 +2,6 @@ package com.saifer.storyapp.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import com.saifer.storyapp.data.di.StoryInjection
 import com.saifer.storyapp.data.repositories.StoryRepository
 
