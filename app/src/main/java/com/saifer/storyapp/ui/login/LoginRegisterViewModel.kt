@@ -7,11 +7,10 @@ import com.saifer.storyapp.data.repositories.LoginRegisterRepository
 
 class LoginRegisterViewModel(val repository: LoginRegisterRepository): ViewModel() {
 
-    fun login(email: String, password: String){
-        repository.doLogin(email, password)
-    }
+    fun login(email: String, password: String) = repository.login(email, password)
 
-    fun register(name: String, email: String, password: String) = repository.doRegister(name, email, password)
+
+    fun register(name: String, email: String, password: String) = repository.register(name, email, password)
 }
 
 class LoginRegisterViewModelFactory : ViewModelProvider.Factory {

@@ -25,17 +25,8 @@ class LoginRegisterRepository(private val apiService: ApiService) {
     private var _status = MutableLiveData<Boolean?>(null)
     val status: LiveData<Boolean?> = _status
 
-    private val executorService : ExecutorService = Executors.newSingleThreadExecutor()
-
-    fun doLogin(email: String, password: String){
-        executorService.execute { login(email, password) }
-    }
-
-    fun doRegister(name: String, email: String, password: String){
-        executorService.execute { register(name, email, password) }
-    }
-
-    private fun login(email: String, password: String) {
+    fun login(email: String, password: String) : Boolean? {
+        var isSuccess: Boolean? = null
         loginModel = LoginModel(email, password)
         val client = apiService.login(loginModel)
         client.enqueue(object : Callback<LoginResponse> {
@@ -47,16 +38,21 @@ class LoginRegisterRepository(private val apiService: ApiService) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         _token.value = responseBody.loginResult?.token.toString()
+                        isSuccess = true
                     }
+                } else {
+                    isSuccess = false
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Error on Login Activity", "${t.message}")
             }
         })
+        return isSuccess
     }
 
-    private fun register(name: String, email: String, password: String) {
+    fun register(name: String, email: String, password: String) : Boolean? {
+        var isSuccess: Boolean? = null
         registerModel = RegisterModel(name, email, password)
         val client = apiService.register(registerModel)
         client.enqueue(object : Callback<RegisterResponse> {
@@ -68,14 +64,17 @@ class LoginRegisterRepository(private val apiService: ApiService) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         _status.value = responseBody.error!!
+                        isSuccess = true
                     }
                 } else {
                     _status.value = true
+                    isSuccess = false
                 }
             }
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 Log.e("Error on Register Activity", "${t.message}")
             }
         })
+        return isSuccess
     }
 }

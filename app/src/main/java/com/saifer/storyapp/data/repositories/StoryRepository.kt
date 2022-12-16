@@ -23,8 +23,6 @@ import java.util.concurrent.Executors
 
 class StoryRepository(private val apiService: ApiService) {
 
-    private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
-
     // stories
     private var _stories = MutableLiveData<List<ListStoryItem>>()
     val stories: LiveData<List<ListStoryItem>> = _stories
@@ -45,15 +43,8 @@ class StoryRepository(private val apiService: ApiService) {
     private var _detail = MutableLiveData<Story>()
     val detail: LiveData<Story> = _detail
 
-    fun getDetailStory(id: String, sessionManager: SessionManager){
-        executorService.execute { detailStory(id, sessionManager) }
-    }
-
-    fun getStoryWithLocation(sessionManager: SessionManager){
-        executorService.execute { getStoriesWithLocation(sessionManager) }
-    }
-
-    private fun getStoriesWithLocation(sessionManager: SessionManager){
+    fun getStoriesWithLocation(sessionManager: SessionManager) : Boolean? {
+        var isSuccess: Boolean? = null
         val client = ApiConfig.getApiService().getStories("Bearer ${sessionManager.getToken()}", "1")
         client.enqueue(object : Callback<StoriesResponse> {
             override fun onResponse(
@@ -62,15 +53,21 @@ class StoryRepository(private val apiService: ApiService) {
             ) {
                 if (response.body() != null){
                     _stories.value = response.body()?.listStory
+                    isSuccess = true
+                }
+                else {
+                    isSuccess = false
                 }
             }
             override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
                 Log.e("Error on Story Activity", "${t.message}")
             }
         })
+        return isSuccess
     }
 
-    private fun detailStory(id: String, sessionManager: SessionManager){
+    fun detailStory(id: String, sessionManager: SessionManager) : Boolean?{
+        var isSuccess: Boolean? = null
         val client = ApiConfig.getApiService().getDetailStory(id, "Bearer ${sessionManager.getToken()}")
         client.enqueue(object : Callback<DetailStoryResponse> {
             override fun onResponse(
@@ -80,12 +77,16 @@ class StoryRepository(private val apiService: ApiService) {
                 if (response.isSuccessful) {
                     if (response.body() != null){
                         _detail.value = response.body()?.story!!
+                        isSuccess = true
                     }
+                } else {
+                    isSuccess = false
                 }
             }
             override fun onFailure(call: Call<DetailStoryResponse>, t: Throwable) {
                 Log.e("Error on Story Activity", "${t.message}")
             }
         })
+        return isSuccess
     }
 }

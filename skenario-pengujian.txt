@@ -1,14 +1,28 @@
 1. Login Register ViewModel
 	a. ketika berhasil melakukan login
 		- memastikan mengembalikan Result.Success
-	b. ketika berhasil melakukan register
+		- memastikan token tidak null
+	b. ketika gagal melakukan login
+		- memastikan mengembalikan Result.Error
+	c. ketika berhasil melakukan register
 		- memastikan mengembalikan Result.Success
+	d. ketika gagal melakukan register
+		- memastikan mengembalikan Result.Error
 2. Story View Model
 	a. ketika berhasil memuat List Stories
 		- memastikan mengembalikan Result.Success
+		- memastikan data tidak null
+	b. ketika gagal memuat list Stories
+		- memastikan mengembalikan Result.Error
 3. Detail Story View Model
 	a. ketika berhasil memuat Detail Story
 		- memastikan mengembalikan Result.Success
+		- memastikan data tidak null
+	b. ketika gagal memuat Detail Story
+		- memastikan mengembalikan Result.Error
 4. Map View Model
-	a. ketika berhasil memuat List Story Dengan Lokasi
+	a. ketika berhasil memuat List Story dengan Lokasi
 		- memastikan mengembalikan Result.Success
+		- memastikan data tidak null
+	b. ketika gagal memuat List Story dengan Lokasi
+		- memastikan mengembalikan Result.Error
