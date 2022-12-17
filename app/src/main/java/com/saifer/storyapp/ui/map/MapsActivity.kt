@@ -42,7 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        viewModel.getStoryForMaps(sessionManager)
+        viewModel.getStoryForMaps(sessionManager.getToken()!!)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         binding.fbNewStory.setOnClickListener {
             val i = Intent(this@MapsActivity, NewStoryActivity::class.java)
@@ -55,8 +55,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        viewModel.getStoryForMaps(sessionManager).observe(this) { story ->
-            for (i in story.indices){
+        viewModel.getStoryForMaps(sessionManager.getToken()!!).observe(this) { story ->
+            for (i in story!!.indices){
                 mMap.addMarker(MarkerOptions().position(LatLng(story[i].lat!!, story[i].lon!!)).title(story[i].name).snippet(story[i].description))?.tag = story[i].id
                 mMap.setOnInfoWindowClickListener { marker ->
                     val intent = Intent(this, DetailStoryActivity::class.java)

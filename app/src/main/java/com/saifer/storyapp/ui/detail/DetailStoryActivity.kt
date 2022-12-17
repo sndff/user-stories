@@ -33,9 +33,9 @@ class DetailStoryActivity : AppCompatActivity() {
     }
 
     private fun getData(id: String){
-        viewModel.detail(id, session).observe(this){
+        viewModel.detail(id, session.getToken()!!).observe(this){
             Glide.with(this)
-                .load(it.photoUrl)
+                .load(it!!.photoUrl)
                 .apply( RequestOptions().override(1000,1000))
                 .into(binding.ivDetailPhoto)
             binding.tvDetailName.text = it.name

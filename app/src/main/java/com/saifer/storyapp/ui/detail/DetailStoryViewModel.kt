@@ -8,7 +8,7 @@ import com.saifer.storyapp.session.SessionManager
 
 class DetailStoryViewModel(private val repository: StoryRepository) : ViewModel(){
 
-    fun detail(id: String, sessionManager: SessionManager) = repository.detailStory(id, sessionManager)
+    fun detail(id: String, token: String) = repository.detailStory(id, token)
 }
 
 class DetailStoryViewModelFactory : ViewModelProvider.Factory {

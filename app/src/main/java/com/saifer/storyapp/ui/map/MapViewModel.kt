@@ -8,7 +8,7 @@ import com.saifer.storyapp.session.SessionManager
 
 class MapViewModel(private val repository: StoryRepository) : ViewModel() {
 
-    fun getStoryForMaps(sessionManager: SessionManager) = repository.getStoriesWithLocation(sessionManager)
+    fun getStoryForMaps(token: String) = repository.getStoriesWithLocation(token)
 
 }
 

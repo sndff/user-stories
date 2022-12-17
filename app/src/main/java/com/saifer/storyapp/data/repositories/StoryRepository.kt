@@ -14,7 +14,6 @@ import com.saifer.storyapp.data.remote.responses.StoriesResponse
 import com.saifer.storyapp.data.remote.responses.Story
 import com.saifer.storyapp.data.remote.retrofit.ApiConfig
 import com.saifer.storyapp.data.remote.retrofit.ApiService
-import com.saifer.storyapp.session.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,16 +31,20 @@ class StoryRepository(private val apiService: ApiService) {
         ).liveData
     }
 
-    fun getStoriesWithLocation(sessionManager: SessionManager) : LiveData<List<ListStoryItem>> {
-        val stories = MutableLiveData<List<ListStoryItem>>()
-        val client = ApiConfig.getApiService().getStories("Bearer ${sessionManager.getToken()}", "1")
+    fun getStoriesWithLocation(token: String) : LiveData<List<ListStoryItem>?> {
+        val stories = MutableLiveData<List<ListStoryItem>?>()
+        val client = ApiConfig.getApiService().getStories("Bearer $token", "1")
         client.enqueue(object : Callback<StoriesResponse> {
             override fun onResponse(
                 call: Call<StoriesResponse>,
                 response: Response<StoriesResponse>
             ) {
-                if (response.body() != null){
-                    stories.value = response.body()?.listStory
+                if (response.isSuccessful){
+                    if (response.body() != null){
+                        stories.value = response.body()?.listStory
+                    }
+                } else {
+                    stories.value = null
                 }
             }
             override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
@@ -51,9 +54,9 @@ class StoryRepository(private val apiService: ApiService) {
         return stories
     }
 
-    fun detailStory(id: String, sessionManager: SessionManager) : LiveData<Story> {
-        val story = MutableLiveData<Story>()
-        val client = ApiConfig.getApiService().getDetailStory(id, "Bearer ${sessionManager.getToken()}")
+    fun detailStory(id: String, token: String) : LiveData<Story?> {
+        val story = MutableLiveData<Story?>()
+        val client = ApiConfig.getApiService().getDetailStory(id, "Bearer $token")
         client.enqueue(object : Callback<DetailStoryResponse> {
             override fun onResponse(
                 call: Call<DetailStoryResponse>,
@@ -63,6 +66,8 @@ class StoryRepository(private val apiService: ApiService) {
                     if (response.body() != null){
                         story.value = response.body()?.story!!
                     }
+                } else {
+                    story.value = null
                 }
             }
             override fun onFailure(call: Call<DetailStoryResponse>, t: Throwable) {
