@@ -11,24 +11,16 @@ import com.saifer.storyapp.data.remote.retrofit.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class LoginRegisterRepository(private val apiService: ApiService) {
 
     private lateinit var loginModel: LoginModel
     private lateinit var registerModel: RegisterModel
 
-    private var _token = MutableLiveData<String>(null)
-    val token: LiveData<String> = _token
-
-    private var _status = MutableLiveData<Boolean?>(null)
-    val status: LiveData<Boolean?> = _status
-
-    fun login(email: String, password: String) : Boolean? {
-        var isSuccess: Boolean? = null
+    fun login(email: String, password: String) : LiveData<String?> {
+        val token = MutableLiveData<String>(null)
         loginModel = LoginModel(email, password)
-        val client = apiService.login(loginModel)
+                val client = apiService.login(loginModel)
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(
                 call: Call<LoginResponse>,
@@ -37,22 +29,19 @@ class LoginRegisterRepository(private val apiService: ApiService) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        _token.value = responseBody.loginResult?.token.toString()
-                        isSuccess = true
+                        token.value = responseBody.loginResult?.token.toString()
                     }
-                } else {
-                    isSuccess = false
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Error on Login Activity", "${t.message}")
             }
         })
-        return isSuccess
+        return token
     }
 
-    fun register(name: String, email: String, password: String) : Boolean? {
-        var isSuccess: Boolean? = null
+    fun register(name: String, email: String, password: String) : LiveData<Boolean> {
+        val isSuccess = MutableLiveData(false)
         registerModel = RegisterModel(name, email, password)
         val client = apiService.register(registerModel)
         client.enqueue(object : Callback<RegisterResponse> {
@@ -63,12 +52,10 @@ class LoginRegisterRepository(private val apiService: ApiService) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        _status.value = responseBody.error!!
-                        isSuccess = true
+                        isSuccess.value = true
                     }
                 } else {
-                    _status.value = true
-                    isSuccess = false
+                    isSuccess.value = false
                 }
             }
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {

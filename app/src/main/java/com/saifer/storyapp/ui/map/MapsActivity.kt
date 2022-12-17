@@ -1,13 +1,9 @@
 package com.saifer.storyapp.ui.map
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
@@ -59,7 +55,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        viewModel.repository.stories.observeForever { story ->
+        viewModel.getStoryForMaps(sessionManager).observe(this) { story ->
             for (i in story.indices){
                 mMap.addMarker(MarkerOptions().position(LatLng(story[i].lat!!, story[i].lon!!)).title(story[i].name).snippet(story[i].description))?.tag = story[i].id
                 mMap.setOnInfoWindowClickListener { marker ->

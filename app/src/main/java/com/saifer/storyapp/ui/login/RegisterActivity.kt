@@ -47,17 +47,16 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun register(name: String, email: String, password: String) {
         binding.progressBar.visibility = View.VISIBLE
-        viewModel.register(name, email, password)
-        viewModel.repository.status.observe(this){
+        viewModel.register(name, email, password).observe(this){
             when (it) {
                 false -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show()
-                    finish()
+                    Toast.makeText(this, "Error: Incorrect input format or email is already taken", Toast.LENGTH_SHORT).show()
                 }
                 true -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Error: Incorrect input format or email is already taken", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
                 null -> {
                     binding.progressBar.visibility = View.VISIBLE

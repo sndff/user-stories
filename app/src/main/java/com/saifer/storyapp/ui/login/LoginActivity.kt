@@ -50,8 +50,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login(email: String, password: String) {
-        viewModel.login(email, password)
-        viewModel.repository.token.observe(this){
+        viewModel.login(email, password).observe(this){
             if (it == null) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {

@@ -6,7 +6,7 @@ import com.saifer.storyapp.data.di.StoryInjection
 import com.saifer.storyapp.data.repositories.StoryRepository
 import com.saifer.storyapp.session.SessionManager
 
-class MapViewModel(val repository: StoryRepository) : ViewModel() {
+class MapViewModel(private val repository: StoryRepository) : ViewModel() {
 
     fun getStoryForMaps(sessionManager: SessionManager) = repository.getStoriesWithLocation(sessionManager)
 

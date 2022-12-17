@@ -18,16 +18,9 @@ import com.saifer.storyapp.session.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class StoryRepository(private val apiService: ApiService) {
 
-    // stories
-    private var _stories = MutableLiveData<List<ListStoryItem>>()
-    val stories: LiveData<List<ListStoryItem>> = _stories
-
-    // paging
     fun getStoryPaging(token: String): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(
@@ -39,12 +32,8 @@ class StoryRepository(private val apiService: ApiService) {
         ).liveData
     }
 
-    //detail
-    private var _detail = MutableLiveData<Story>()
-    val detail: LiveData<Story> = _detail
-
-    fun getStoriesWithLocation(sessionManager: SessionManager) : Boolean? {
-        var isSuccess: Boolean? = null
+    fun getStoriesWithLocation(sessionManager: SessionManager) : LiveData<List<ListStoryItem>> {
+        val stories = MutableLiveData<List<ListStoryItem>>()
         val client = ApiConfig.getApiService().getStories("Bearer ${sessionManager.getToken()}", "1")
         client.enqueue(object : Callback<StoriesResponse> {
             override fun onResponse(
@@ -52,22 +41,18 @@ class StoryRepository(private val apiService: ApiService) {
                 response: Response<StoriesResponse>
             ) {
                 if (response.body() != null){
-                    _stories.value = response.body()?.listStory
-                    isSuccess = true
-                }
-                else {
-                    isSuccess = false
+                    stories.value = response.body()?.listStory
                 }
             }
             override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
                 Log.e("Error on Story Activity", "${t.message}")
             }
         })
-        return isSuccess
+        return stories
     }
 
-    fun detailStory(id: String, sessionManager: SessionManager) : Boolean?{
-        var isSuccess: Boolean? = null
+    fun detailStory(id: String, sessionManager: SessionManager) : LiveData<Story> {
+        val story = MutableLiveData<Story>()
         val client = ApiConfig.getApiService().getDetailStory(id, "Bearer ${sessionManager.getToken()}")
         client.enqueue(object : Callback<DetailStoryResponse> {
             override fun onResponse(
@@ -76,17 +61,14 @@ class StoryRepository(private val apiService: ApiService) {
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null){
-                        _detail.value = response.body()?.story!!
-                        isSuccess = true
+                        story.value = response.body()?.story!!
                     }
-                } else {
-                    isSuccess = false
                 }
             }
             override fun onFailure(call: Call<DetailStoryResponse>, t: Throwable) {
                 Log.e("Error on Story Activity", "${t.message}")
             }
         })
-        return isSuccess
+        return story
     }
 }

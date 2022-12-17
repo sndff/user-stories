@@ -33,8 +33,7 @@ class DetailStoryActivity : AppCompatActivity() {
     }
 
     private fun getData(id: String){
-        viewModel.detail(id, session)
-        viewModel.repository.detail.observe(this) {
+        viewModel.detail(id, session).observe(this){
             Glide.with(this)
                 .load(it.photoUrl)
                 .apply( RequestOptions().override(1000,1000))

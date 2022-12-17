@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.saifer.storyapp.data.di.LoginRegisterInjection
 import com.saifer.storyapp.data.repositories.LoginRegisterRepository
 
-class LoginRegisterViewModel(val repository: LoginRegisterRepository): ViewModel() {
+class LoginRegisterViewModel(private val repository: LoginRegisterRepository): ViewModel() {
 
     fun login(email: String, password: String) = repository.login(email, password)
 
