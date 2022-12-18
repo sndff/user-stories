@@ -1,25 +1,36 @@
 1. Login Register ViewModel
 	a. ketika berhasil melakukan login
 		- memastikan token tidak null
+		- memastikan token sesuai dengan yang diharapkan
+		- memastikan mengembalikan True
 	b. ketika gagal melakukan login
 		- memastikan token null
+		- memastikan mengembalikan False
 	c. ketika berhasil melakukan register
+	    - memastikan hasil tidak null
 		- memastikan mengembalikan True
 	d. ketika gagal melakukan register
+		- memastikan hasil tidak null
 		- memastikan mengembalikan False
 2. Story View Model
 	a. ketika berhasil memuat List Stories
 		- Memastikan data tidak null
 		- Memastikan struktur data yang dimiliki sesuai
 		- Memastikan ukuran data yang dimiliki sesuai
-		- Memastikan urutan data sama
+		- Memastikan id dari data pertama sesuai dengan yang dharapkan
 3. Detail Story View Model
 	a. Ketika berhasil mengambil data Detail Story
 		- memastikan data tidak null
+		- memastikan data sesuai dengan yang diharapkan
+		- memastikan mengembalikan True
 	b. ketika gagal mengambil data Detail Story
 		- memastikan data null
+		- memastikan mengembalikan False
 4. Map View Model
 	a. ketika berhasil memuat data Map
 		- memastikan data tidak null
+		- memastikan data sesuai dengan yang diharapkan
+		- memastikan mengembalikan True
 	b. ketika gagal memuat data Map
 		- memastikan data null
+		- memastikan mengembalikan False

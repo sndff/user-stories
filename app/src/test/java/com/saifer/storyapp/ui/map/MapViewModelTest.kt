@@ -36,7 +36,7 @@ class MapViewModelTest{
     }
 
     @Test
-    fun `When Success Get Map Data Should not Null`(){
+    fun `When Success Get Map Data Should not Null and Return True`(){
         val expectedData = MutableLiveData<List<ListStoryItem>>()
         expectedData.value = dataDummy
 
@@ -46,10 +46,11 @@ class MapViewModelTest{
         Mockito.verify(repository).getStoriesWithLocation(tokenDummy)
         assertNotNull(actualData)
         assertEquals(expectedData.value, actualData)
+        assertTrue(actualData == expectedData.value)
     }
 
     @Test
-    fun `When Failed Get Map Data Should Null`(){
+    fun `When Failed Get Map Data Should Null and Return False`(){
         val expectedData = MutableLiveData<List<ListStoryItem>>()
         expectedData.value = null
 
@@ -59,5 +60,6 @@ class MapViewModelTest{
         Mockito.verify(repository).getStoriesWithLocation(tokenDummy)
         assertNull(actualData)
         assertEquals(expectedData.value, actualData)
+        assertFalse(actualData != expectedData.value)
     }
 }

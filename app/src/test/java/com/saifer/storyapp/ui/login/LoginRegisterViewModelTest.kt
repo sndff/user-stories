@@ -40,7 +40,7 @@ class LoginRegisterViewModelTest{
     }
 
     @Test
-    fun `When Login Success Token Should not Null`() {
+    fun `When Login Success Token Should not Null and Return True`() {
         val expectedToken = MutableLiveData<String>()
         expectedToken.value = dummyToken
 
@@ -49,11 +49,12 @@ class LoginRegisterViewModelTest{
         val actualToken = viewModel.login(dummyLogin.email, dummyLogin.password).getOrAwaitValue()
         Mockito.verify(repository).login(dummyLogin.email, dummyLogin.password)
         assertNotNull(actualToken)
+        assertEquals(expectedToken.value, actualToken)
         assertTrue(actualToken != null)
     }
 
     @Test
-    fun `When Login Failed Token Should Null`(){
+    fun `When Login Failed Token Should Null and Return False`(){
         val expectedToken = MutableLiveData<String>()
         expectedToken.value = null
 
@@ -63,7 +64,7 @@ class LoginRegisterViewModelTest{
 
         Mockito.verify(repository).login(dummyLogin.email, dummyLogin.password)
         assertNull(actualToken)
-        assertTrue(actualToken == null)
+        assertFalse(expectedToken.value != actualToken)
     }
 
     @Test
@@ -88,6 +89,6 @@ class LoginRegisterViewModelTest{
         val actualRegister = viewModel.register(dummyRegister.name, dummyRegister.email, dummyRegister.password).getOrAwaitValue()
         Mockito.verify(repository).register(dummyRegister.name, dummyRegister.email, dummyRegister.password)
         assertNotNull(actualRegister)
-        assertTrue(!actualRegister)
+        assertFalse(actualRegister)
     }
 }
