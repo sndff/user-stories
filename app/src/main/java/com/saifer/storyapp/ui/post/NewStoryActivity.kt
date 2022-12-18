@@ -15,26 +15,24 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.saifer.storyapp.R
-import com.saifer.storyapp.data.remote.responses.NewStoryResponse
-import com.saifer.storyapp.data.remote.retrofit.ApiConfig
+import com.saifer.storyapp.data.remote.model.PostModel
 import com.saifer.storyapp.databinding.ActivityNewStoryBinding
 import com.saifer.storyapp.session.SessionManager
 import com.saifer.storyapp.ui.list.StoryActivity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.schedule
@@ -48,6 +46,10 @@ class NewStoryActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private val requestedCameraPermission = Manifest.permission.CAMERA
     private val requestedMediaPermission = Manifest.permission.READ_EXTERNAL_STORAGE
+
+    private val viewModel: NewStoryViewModel by viewModels {
+        NewStoryViewModelFactory()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +75,9 @@ class NewStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sessionManager = SessionManager(this@NewStoryActivity)
+
+        val lat = intent.getStringExtra("lat")?.toRequestBody("float".toMediaTypeOrNull())
+        val lon = intent.getStringExtra("lon")?.toRequestBody("float".toMediaTypeOrNull())
 
         binding.btnCamera.setOnClickListener {
             when (PackageManager.PERMISSION_GRANTED) {
@@ -129,7 +134,13 @@ class NewStoryActivity : AppCompatActivity() {
                 binding.edAddDescription.error = "Please Add Description"
             } else {
                 binding.progressBar.visibility = View.VISIBLE
-                postImage()
+                val post = PostModel(
+                    getFile,
+                    binding.edAddDescription.text.toString().toRequestBody("text/plain".toMediaType()),
+                    lat,
+                    lon
+                )
+                viewModel.post(post, sessionManager.getToken()!!)
 
                 Timer().schedule(2000){
                     val i = Intent(this@NewStoryActivity, StoryActivity::class.java)
@@ -140,7 +151,6 @@ class NewStoryActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -173,16 +183,6 @@ class NewStoryActivity : AppCompatActivity() {
 
             binding.imgPreview.setImageURI(selectedImg)
         }
-    }
-
-    private val timeStamp: String = SimpleDateFormat(
-        filenameFormat,
-        Locale.US
-    ).format(System.currentTimeMillis())
-
-    private fun createCustomTempFile(context: Context): File {
-        val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(timeStamp, ".jpg", storageDir)
     }
 
     private fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
@@ -228,74 +228,13 @@ class NewStoryActivity : AppCompatActivity() {
         return myFile
     }
 
-    private fun postImage(){
-        val lat = intent.getStringExtra("lat")?.toRequestBody("float".toMediaTypeOrNull())
-        val lon = intent.getStringExtra("lon")?.toRequestBody("float".toMediaTypeOrNull())
-        if (getFile != null) {
-            val file = reduceFileImage(getFile as File)
-            val description = binding.edAddDescription.text.toString().toRequestBody("text/plain".toMediaType())
-            val requestImageFile = file.asRequestBody("image/jpg".toMediaTypeOrNull())
-            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "photo",
-                file.name,
-                requestImageFile
-            )
-            val client = ApiConfig.getApiService().uploadImage(imageMultipart, description, lat, lon, "Bearer ${sessionManager.getToken()}")
-            client.enqueue(object : Callback<NewStoryResponse> {
-                override fun onResponse(
-                    call: Call<NewStoryResponse>,
-                    response: Response<NewStoryResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null && !responseBody.error!!) {
-                            Toast.makeText(
-                                this@NewStoryActivity,
-                                responseBody.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            binding.progressBar.visibility = View.GONE
-                        }
-                    } else {
-                        Toast.makeText(
-                            this@NewStoryActivity,
-                            response.message(),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        binding.progressBar.visibility = View.GONE
-                    }
-                }
-                override fun onFailure(call: Call<NewStoryResponse>, t: Throwable) {
-                    Toast.makeText(
-                        this@NewStoryActivity,
-                        getString(R.string.error_upload_failed),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    binding.progressBar.visibility = View.GONE
-                }
-            })
-        } else {
-            binding.progressBar.visibility = View.GONE
-            Toast.makeText(
-                this@NewStoryActivity,
-                getString(R.string.error_upload_failed),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+    private fun createCustomTempFile(context: Context): File {
+        val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(timeStamp, ".jpg", storageDir)
     }
 
-    private fun reduceFileImage(file: File): File {
-        val bitmap = BitmapFactory.decodeFile(file.path)
-        var compressQuality = 100
-        var streamLength: Int
-        do {
-            val bmpStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
-            val bmpPicByteArray = bmpStream.toByteArray()
-            streamLength = bmpPicByteArray.size
-            compressQuality -= 5
-        } while (streamLength > 1000000)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
-        return file
-    }
+    private val timeStamp: String = SimpleDateFormat(
+        filenameFormat,
+        Locale.US
+    ).format(System.currentTimeMillis())
 }

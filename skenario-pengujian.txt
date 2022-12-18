@@ -2,10 +2,8 @@
 	a. ketika berhasil melakukan login
 		- memastikan token tidak null
 		- memastikan token sesuai dengan yang diharapkan
-		- memastikan mengembalikan True
 	b. ketika gagal melakukan login
 		- memastikan token null
-		- memastikan mengembalikan False
 	c. ketika berhasil melakukan register
 	    - memastikan hasil tidak null
 		- memastikan mengembalikan True
@@ -22,15 +20,16 @@
 	a. Ketika berhasil mengambil data Detail Story
 		- memastikan data tidak null
 		- memastikan data sesuai dengan yang diharapkan
-		- memastikan mengembalikan True
 	b. ketika gagal mengambil data Detail Story
 		- memastikan data null
-		- memastikan mengembalikan False
 4. Map View Model
 	a. ketika berhasil memuat data Map
 		- memastikan data tidak null
 		- memastikan data sesuai dengan yang diharapkan
-		- memastikan mengembalikan True
 	b. ketika gagal memuat data Map
 		- memastikan data null
-		- memastikan mengembalikan False
+5. New Story View Model
+    a. ketika berhasil memposting story
+        - memastikan mengembalikan True
+    b. ketika gagal memposting story
+        - memastikan mengembalikan False

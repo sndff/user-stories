@@ -1,11 +1,14 @@
 package com.saifer.storyapp.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.saifer.storyapp.data.remote.model.LoginModel
+import com.saifer.storyapp.data.remote.model.PostModel
 import com.saifer.storyapp.data.remote.model.RegisterModel
 import com.saifer.storyapp.data.remote.responses.ListStoryItem
 import com.saifer.storyapp.data.remote.responses.Story
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 object DataDummy {
     fun generateDummyDetailStory(): Story {
@@ -72,4 +75,15 @@ object DataDummy {
         }
         return list
     }
+
+    fun generateDummyPostStory() : PostModel {
+        return PostModel(
+            File.createTempFile("dummy", "jpg"),
+            "descriptions".toRequestBody("text/plain".toMediaType()),
+            "10002210".toRequestBody("float".toMediaTypeOrNull()),
+            "10090340".toRequestBody("float".toMediaTypeOrNull())
+        )
+
+    }
+
 }

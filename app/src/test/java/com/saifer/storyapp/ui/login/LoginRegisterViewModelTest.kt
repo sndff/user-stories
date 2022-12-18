@@ -40,7 +40,7 @@ class LoginRegisterViewModelTest{
     }
 
     @Test
-    fun `When Login Success Token Should not Null and Return True`() {
+    fun `When Login Success Token Should not Null`() {
         val expectedToken = MutableLiveData<String>()
         expectedToken.value = dummyToken
 
@@ -50,11 +50,10 @@ class LoginRegisterViewModelTest{
         Mockito.verify(repository).login(dummyLogin.email, dummyLogin.password)
         assertNotNull(actualToken)
         assertEquals(expectedToken.value, actualToken)
-        assertTrue(actualToken != null)
     }
 
     @Test
-    fun `When Login Failed Token Should Null and Return False`(){
+    fun `When Login Failed Token Should Null`(){
         val expectedToken = MutableLiveData<String>()
         expectedToken.value = null
 
@@ -64,7 +63,6 @@ class LoginRegisterViewModelTest{
 
         Mockito.verify(repository).login(dummyLogin.email, dummyLogin.password)
         assertNull(actualToken)
-        assertFalse(expectedToken.value != actualToken)
     }
 
     @Test

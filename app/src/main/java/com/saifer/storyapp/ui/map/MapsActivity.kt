@@ -1,9 +1,16 @@
 package com.saifer.storyapp.ui.map
 
+import android.Manifest
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
@@ -56,13 +63,45 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         viewModel.getStoryForMaps(sessionManager.getToken()!!).observe(this) { story ->
-            for (i in story!!.indices){
-                mMap.addMarker(MarkerOptions().position(LatLng(story[i].lat!!, story[i].lon!!)).title(story[i].name).snippet(story[i].description))?.tag = story[i].id
-                mMap.setOnInfoWindowClickListener { marker ->
-                    val intent = Intent(this, DetailStoryActivity::class.java)
-                    intent.putExtra(DetailStoryActivity.ID, marker.tag.toString())
-                    startActivity(intent)
+            if (story != null){
+                for (i in story.indices){
+                    mMap.addMarker(MarkerOptions().position(LatLng(story[i].lat!!, story[i].lon!!)).title(story[i].name).snippet(story[i].description))?.tag = story[i].id
+                    mMap.setOnInfoWindowClickListener { marker ->
+                        val intent = Intent(this, DetailStoryActivity::class.java)
+                        intent.putExtra(DetailStoryActivity.ID, marker.tag.toString())
+                        startActivity(intent)
+                    }
                 }
+            }
+        }
+        getMyLocation()
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                getMyLocation()
+            }
+        }
+    private fun getMyLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this.applicationContext,
+                ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mMap.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                lat = it.latitude.toString()
+                lon = it.longitude.toString()
+            }
+        } else {
+            requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
+            requestPermissionLauncher.launch(ACCESS_COARSE_LOCATION)
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                lat = it.latitude.toString()
+                lon = it.longitude.toString()
             }
         }
     }

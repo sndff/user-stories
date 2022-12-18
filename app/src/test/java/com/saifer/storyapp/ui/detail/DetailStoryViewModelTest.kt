@@ -39,7 +39,7 @@ class DetailStoryViewModelTest{
     }
 
     @Test
-    fun `When Success Get Detail Story Should Not Null and Return True`() {
+    fun `When Success Get Detail Story Should Not Null`() {
         val expectedDetail = MutableLiveData<Story>()
         expectedDetail.value = dataDummy
 
@@ -49,11 +49,10 @@ class DetailStoryViewModelTest{
         Mockito.verify(repository).detailStory(dataDummy.id!!, tokenDummy)
         Assert.assertNotNull(actualDetail)
         Assert.assertEquals(expectedDetail.value, actualDetail)
-        Assert.assertTrue(actualDetail == expectedDetail.value)
     }
 
     @Test
-    fun `When Failed Get Detail Story Should Null ane Return False`() {
+    fun `When Failed Get Detail Story Should Null`() {
         val expectedDetail = MutableLiveData<Story>()
         expectedDetail.value = null
 
@@ -62,6 +61,5 @@ class DetailStoryViewModelTest{
         val actualDetail = viewModel.detail(dataDummy.id!!, tokenDummy).getOrAwaitValue()
         Mockito.verify(repository).detailStory(dataDummy.id!!, tokenDummy)
         Assert.assertNull(actualDetail)
-        Assert.assertTrue(actualDetail == expectedDetail.value)
     }
 }
